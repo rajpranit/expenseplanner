@@ -32,36 +32,50 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Flutter App'),
-        ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget> [
-            Container(
-              child: Card(
-                child: Text(
-                  'Chart',
-                  textAlign: TextAlign.center,
-                ),
-                elevation: 10,
+      appBar: AppBar(
+        title: Text('Flutter App'),
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            child: Card(
+              color: Color.fromARGB(210, 247, 36, 36),
+              child: Text(
+                'Chart',
+                textAlign: TextAlign.center,
               ),
-              width: double.infinity,
-              height: 50,
+              elevation: 15,
             ),
-            Card(
-              child: Container(
-                child: Text(
-                  'List of TX',
-                  textAlign: TextAlign.center,
+            width: double.infinity,
+            height: 50,
+          ),
+          Column(
+              children: transactions.map((tx) {
+            return Container(
+              height: 150,
+              child: Card(
+                child: Row(
+                  children: [
+                    Text(
+                      tx.amount.toString(),
+                    ),
+                    Column(
+                      children: [
+                        Text(tx.title),
+                        Text(
+                          tx.date.toString(),
+                        ),
+                      ],
+                    )
+                  ],
                 ),
-                width: double.infinity,
-                height: 50,
               ),
-              elevation: 10,
-            )
-          ],
-        ));
+            );
+          }).toList())
+        ],
+      ),
+    );
   }
 }
