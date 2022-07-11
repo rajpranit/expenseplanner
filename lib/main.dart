@@ -28,29 +28,31 @@ class MyHomePage extends StatelessWidget {
           ],
         ),
       ),
-      body: Column(
-        // mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            child: Card(
-              color: Color(0xFF2F3C7E),
-              child: Container(
-                alignment: Alignment.center,
-                child: Text(
-                  'Chart',
-                  style: TextStyle(color: Colors.white),
-                  textAlign: TextAlign.center,
+      body: SingleChildScrollView(
+        child: Column(
+          // mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              child: Card(
+                color: Color(0xFF2F3C7E),
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Chart',
+                    style: TextStyle(color: Colors.white),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
+                elevation: 15,
               ),
-              elevation: 15,
+              width: double.infinity,
+              height: 50,
             ),
-            width: double.infinity,
-            height: 50,
-          ),
-          UserTransactions()
+            UserTransactions()
 
-        ],
+          ],
+        ),
       ),
     );
   }
