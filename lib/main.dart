@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import './widgets/user_transactions.dart';
+import 'package:flutter_complete_guide/widgets/new_transactions.dart';
+import './models/transaction.dart';
+import './widgets/transactions_list.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,14 +15,67 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  final List<Transaction> transactions = [
+    Transaction(
+      id: '1',
+      title: 'Petrol',
+      amount: 233,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: '2',
+      title: 'Groceries',
+      amount: 541,
+      date: DateTime.now(),
+    )
+  ];
+
+  void _addNewTransaction(String txtitle, double txamount) {
+    final newTx = Transaction(
+      id: DateTime.now().toString(),
+      title: txtitle,
+      amount: txamount,
+      date: DateTime.now(),
+    );
+
+    setState(() {
+      transactions.add(newTx);
+    });
+  }
+
+  void _showNewTransactionWidget(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (_) {
+          return GestureDetector(
+            child: NewTransactions(_addNewTransaction),
+            onTap: () {},
+            behavior: HitTestBehavior.opaque,
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFFBEAEB),
+      backgroundColor: Color(0xFF8AAAE5),
       appBar: AppBar(
-        backgroundColor: Color(0xFF2F3C7E),
+        actions: [
+          IconButton(
+            onPressed: () => {_showNewTransactionWidget(context)},
+            icon: Icon(
+              Icons.add,
+              color: Colors.amber.shade400,
+            ),
+          )
+        ],
+        backgroundColor: Color(0xFFFE5F55),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -34,13 +89,13 @@ class MyHomePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Container(
+              margin: EdgeInsets.only(top: 15),
               child: Card(
-                color: Color(0xFF2F3C7E),
                 child: Container(
                   alignment: Alignment.center,
                   child: Text(
                     'Chart',
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: Colors.black),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -49,10 +104,18 @@ class MyHomePage extends StatelessWidget {
               width: double.infinity,
               height: 50,
             ),
-            UserTransactions()
-
+            TransactionList(transactions),
           ],
         ),
+      ),
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.miniCenterFloat,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(0xFFFE5F55),
+        child: Icon(
+          Icons.add,
+        ),
+        onPressed: () => {_showNewTransactionWidget(context)},
       ),
     );
   }
