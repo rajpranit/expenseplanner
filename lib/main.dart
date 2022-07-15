@@ -9,7 +9,26 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter App',
+      theme: ThemeData(
+        textTheme: TextTheme(
+          headline6: TextStyle(
+            fontFamily: 'OpenSans',
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+            color: Color(0xFF317773)
+          ),
+        ),
+        appBarTheme: AppBarTheme(
+          titleTextStyle: TextStyle(
+              fontFamily: 'OpenSans',
+              fontSize: 20,
+              fontWeight: FontWeight.bold),
+        ),
+        fontFamily: 'QuickSand',
+        primarySwatch: Colors.red,
+        scaffoldBackgroundColor: Color(0xFF8AAAE5),
+      ),
+      title: 'Expenser',
       home: MyHomePage(),
     );
   }
@@ -75,7 +94,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           )
         ],
-        backgroundColor: Color(0xFFFE5F55),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -111,7 +129,6 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButtonLocation:
           FloatingActionButtonLocation.miniCenterFloat,
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Color(0xFFFE5F55),
         child: Icon(
           Icons.add,
         ),
