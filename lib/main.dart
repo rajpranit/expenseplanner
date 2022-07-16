@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_complete_guide/widgets/new_transactions.dart';
+
+import './widgets/chart.dart';
+import './widgets/new_transactions.dart';
 import './models/transaction.dart';
 import './widgets/transactions_list.dart';
 
@@ -12,11 +14,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         textTheme: TextTheme(
           headline6: TextStyle(
-            fontFamily: 'OpenSans',
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-            color: Color(0xFF317773)
-          ),
+              fontFamily: 'OpenSans',
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+              color: Color(0xFF317773)),
         ),
         appBarTheme: AppBarTheme(
           titleTextStyle: TextStyle(
@@ -40,20 +41,32 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> transactions = [
-    // Transaction(
-    //   id: '1',
-    //   title: 'Petrol',
-    //   amount: 233,
-    //   date: DateTime.now(),
-    // ),
-    // Transaction(
-    //   id: '2',
-    //   title: 'Groceries',
-    //   amount: 541,
-    //   date: DateTime.now(),
-    // )
+  final List<Transaction> _usertransactions = [
+    Transaction(
+      id: '1',
+      title: 'Petrol',
+      amount: 233,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: '2',
+      title: 'Groceries',
+      amount: 541,
+      date: DateTime.now(),
+    )
   ];
+
+  List<Transaction> get _recentTransactions {
+    return _usertransactions.where(
+      (tx) {
+        return tx.date.isAfter(
+          DateTime.now().subtract(
+            Duration(days: 7),
+          ),
+        );
+      },
+    ).toList();
+  }
 
   void _addNewTransaction(String txtitle, double txamount) {
     final newTx = Transaction(
@@ -64,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
 
     setState(() {
-      transactions.add(newTx);
+      _usertransactions.add(newTx);
     });
   }
 
@@ -106,23 +119,8 @@ class _MyHomePageState extends State<MyHomePage> {
           // mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(top: 15),
-              child: Card(
-                child: Container(
-                  alignment: Alignment.center,
-                  child: Text(
-                    'Chart',
-                    style: TextStyle(color: Colors.black),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                elevation: 15,
-              ),
-              width: double.infinity,
-              height: 50,
-            ),
-            TransactionList(transactions),
+            Chart(_recentTransactions),
+            TransactionList(_usertransactions),
           ],
         ),
       ),
