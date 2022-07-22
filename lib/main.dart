@@ -14,19 +14,27 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         textTheme: TextTheme(
           headline6: TextStyle(
-              fontFamily: 'OpenSans',
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-              color: Color(0xFF317773)),
+            fontFamily: 'OpenSans',
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+            color: Color.fromARGB(255, 7, 7, 7),
+          ),
+          bodyText1: TextStyle(
+            fontFamily: 'OpenSans',
+            fontWeight: FontWeight.bold,
+            fontSize: 14,
+            color: Color.fromARGB(222, 65, 63, 63),
+          ),
         ),
         appBarTheme: AppBarTheme(
           titleTextStyle: TextStyle(
-              fontFamily: 'OpenSans',
-              fontSize: 20,
-              fontWeight: FontWeight.bold),
+            fontFamily: 'OpenSans',
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         fontFamily: 'QuickSand',
-        primarySwatch: Colors.red,
+        primarySwatch: Colors.purple,
         scaffoldBackgroundColor: Color(0xFF8AAAE5),
       ),
       title: 'Expenser',
