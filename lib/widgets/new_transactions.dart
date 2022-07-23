@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class NewTransactions extends StatefulWidget {
   final Function newTansactions;
@@ -11,8 +12,8 @@ class NewTransactions extends StatefulWidget {
 
 class _NewTransactionsState extends State<NewTransactions> {
   final textInput = TextEditingController();
-
   final amountInput = TextEditingController();
+  DateTime _selectedDate;
 
   void _onSubmitted() {
     final enteredTitle = textInput.text;
@@ -26,14 +27,21 @@ class _NewTransactionsState extends State<NewTransactions> {
     Navigator.of(context).pop();
   }
 
-  void _presentDatePicker() => {
-        showDatePicker(
-          context: context,
-          initialDate: DateTime.now(),
-          firstDate: DateTime(2019),
-          lastDate: DateTime.now(),
-        )
-      };
+  void _presentDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2019),
+      lastDate: DateTime.now(),
+    ).then((pickedDate) {
+      if (pickedDate == null) {
+        return;
+      }
+      setState(() {
+        _selectedDate = pickedDate;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +73,11 @@ class _NewTransactionsState extends State<NewTransactions> {
               height: 70,
               child: Row(
                 children: [
-                  Text('no Date Chosen'),
+                  Text(
+                    _selectedDate == null
+                        ? 'no Date Chosen'
+                        : DateFormat.yMd().format(_selectedDate).toString(),
+                  ),
                   TextButton(
                     child: Text(
                       'choose Date',
