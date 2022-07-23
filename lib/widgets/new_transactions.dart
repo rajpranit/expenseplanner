@@ -18,11 +18,12 @@ class _NewTransactionsState extends State<NewTransactions> {
   void _onSubmitted() {
     final enteredTitle = textInput.text;
     final enteredAmount = double.parse(amountInput.text);
+    final enteredDate = _selectedDate;
 
-    if (enteredTitle == null || enteredAmount <= 0) {
+    if (enteredTitle == null || enteredAmount <= 0 || _selectedDate == null) {
       return;
     }
-    widget.newTansactions(enteredTitle, enteredAmount);
+    widget.newTansactions(enteredTitle, enteredAmount, enteredDate);
 
     Navigator.of(context).pop();
   }
@@ -73,14 +74,16 @@ class _NewTransactionsState extends State<NewTransactions> {
               height: 70,
               child: Row(
                 children: [
-                  Text(
-                    _selectedDate == null
-                        ? 'no Date Chosen'
-                        : DateFormat.yMd().format(_selectedDate).toString(),
+                  Expanded(
+                    child: Text(
+                      _selectedDate == null
+                          ? 'no Date Chosen'
+                          : ' Picked Date: ${DateFormat.yMd().format(_selectedDate)} ',
+                    ),
                   ),
                   TextButton(
                     child: Text(
-                      'choose Date',
+                      'Choose Date',
                       style: TextStyle(
                         color: Colors.purple,
                         fontSize: 15,
