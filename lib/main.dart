@@ -64,6 +64,18 @@ class _MyHomePageState extends State<MyHomePage> {
       title: 'Groceries',
       amount: 541,
       date: DateTime.now(),
+    ),
+    Transaction(
+      id: '3',
+      title: 'Groceries',
+      amount: 541,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: '4',
+      title: 'Groceries',
+      amount: 541,
+      date: DateTime.now(),
     )
   ];
 
