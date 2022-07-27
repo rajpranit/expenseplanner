@@ -13,7 +13,6 @@ class TransactionList extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(color: Color(0xFFFFFFF)),
-      height: 640,
       child: transactions.isEmpty
           ? Column(
               children: [

@@ -128,32 +128,44 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final appBar = AppBar(
+      actions: [
+        IconButton(
+          onPressed: () => {_showNewTransactionWidget(context)},
+          icon: Icon(
+            Icons.add,
+            color: Colors.amber.shade400,
+          ),
+        )
+      ],
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('Expenser'),
+        ],
+      ),
+    );
     return Scaffold(
       backgroundColor: Color(0xFF8AAAE5),
-      appBar: AppBar(
-        actions: [
-          IconButton(
-            onPressed: () => {_showNewTransactionWidget(context)},
-            icon: Icon(
-              Icons.add,
-              color: Colors.amber.shade400,
-            ),
-          )
-        ],
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Expenser'),
-          ],
-        ),
-      ),
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           // mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Chart(_recentTransactions),
-            TransactionList(_usertransactions, _deleteTransaction),
+            Container(
+              height: (MediaQuery.of(context).size.height -
+                      appBar.preferredSize.height -
+                      MediaQuery.of(context).padding.top) *
+                  0.4,
+              child: Chart(_recentTransactions),
+            ),
+            Container(
+                height: (MediaQuery.of(context).size.height -
+                        appBar.preferredSize.height -
+                        MediaQuery.of(context).padding.top) *
+                    0.6,
+                child: TransactionList(_usertransactions, _deleteTransaction)),
           ],
         ),
       ),
