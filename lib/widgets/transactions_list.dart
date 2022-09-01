@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import '../Utilities/TransactionItem.dart';
+
 import '../models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
@@ -10,83 +11,37 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('build()transactionlist');
     return Container(
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(color: Color(0xFFFFFFF)),
-      child: transactions.isEmpty
-          ? LayoutBuilder(
-              builder: (context, constraints) {
-                return Column(
-                  children: [
-                    Text("There is nothing to show here",
-                        style: Theme.of(context).textTheme.headline5),
-                    SizedBox(height: 20),
-                    Container(
-                      height: constraints.maxHeight * 0.5,
-                      child: Image.asset(
-                        'assets/images/waiting.png',
-                        fit: BoxFit.fill,
-                      ),
-                    )
-                  ],
-                );
-              },
-            )
-          : ListView.builder(
-              itemBuilder: (context, index) {
-                return Container(
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                    color: Colors.white,
-                    margin: EdgeInsets.symmetric(vertical: 8, horizontal: 6),
-                    elevation: 10,
-                    child: ListTile(
-                      leading: Container(
-                        child: CircleAvatar(
-                          radius: 30,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: FittedBox(
-                                child: Text(
-                                    '\$${transactions[index].amount.toString()}')),
-                          ),
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(color: Color(0xFFFFFFF)),
+        child: transactions.isEmpty
+            ? LayoutBuilder(
+                builder: (context, constraints) {
+                  return Column(
+                    children: [
+                      Text("There is nothing to show here",
+                          style: Theme.of(context).textTheme.headline5),
+                      SizedBox(height: 20),
+                      Container(
+                        height: constraints.maxHeight * 0.5,
+                        child: Image.asset(
+                          'assets/images/waiting.png',
+                          fit: BoxFit.fill,
                         ),
-                      ),
-                      title: Text(
-                        '${transactions[index].title}',
-                        style: Theme.of(context).textTheme.headline6,
-                      ),
-                      subtitle: Text(
-                        DateFormat.yMMMd()
-                            .format(transactions[index].date)
-                            .toString(),
-                        style: Theme.of(context).textTheme.bodyText1,
-                      ),
-                      trailing: MediaQuery.of(context).size.width > 400
-                          ? TextButton.icon(
-                              onPressed: () => deleteTransaction(
-                                  transactions[index].id.toString()),
-                              icon: Icon(
-                                Icons.delete,
-                                color: Colors.red,
-                              ),
-                              label: Text("Delete"),
-                            )
-                          : IconButton(
-                              onPressed: () => deleteTransaction(
-                                  transactions[index].id.toString()),
-                              icon: Icon(
-                                Icons.delete,
-                                color: Colors.red,
-                              )),
-                    ),
-                  ),
-                );
-              },
-              itemCount: transactions.length,
-            ),
-    );
+                      )
+                    ],
+                  );
+                },
+              )
+            : ListView.builder(
+                itemBuilder: (context, index) {
+                  return Container(
+                    child: TransactionItem(
+                        transactions[index], deleteTransaction, context),
+                  );
+                },
+                itemCount: transactions.length,
+              ));
   }
 }
