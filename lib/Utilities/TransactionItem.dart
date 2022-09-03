@@ -1,49 +1,79 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_complete_guide/models/transaction.dart';
 import 'package:intl/intl.dart';
 
-Card TransactionItem(
-    Transaction transaction, Function deleteTransaction, BuildContext context) {
-  return Card(
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(15.0),
-    ),
-    color: Colors.white,
-    margin: EdgeInsets.symmetric(vertical: 8, horizontal: 6),
-    elevation: 10,
-    child: ListTile(
-      leading: Container(
-        child: CircleAvatar(
+import '../models/transaction.dart';
+
+class TransactionItem extends StatefulWidget {
+  const TransactionItem({
+    Key key,
+    @required this.transaction,
+    @required this.deleteTx,
+  }) : super(key: key);
+
+  final Transaction transaction;
+  final Function deleteTx;
+
+  @override
+  State<TransactionItem> createState() => _TransactionItemState();
+}
+
+class _TransactionItemState extends State<TransactionItem> {
+  Color bgcolor;
+  @override
+  void initState() {
+    const availableColors = [
+      Colors.blue,
+      Colors.purple,
+      Colors.red,
+      Colors.yellow
+    ];
+
+    bgcolor = availableColors[Random().nextInt(4)];
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 5,
+      margin: EdgeInsets.symmetric(
+        vertical: 8,
+        horizontal: 5,
+      ),
+      child: ListTile(
+        leading: CircleAvatar(
+          backgroundColor: bgcolor,
           radius: 30,
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: FittedBox(child: Text('\$${transaction.amount.toString()}')),
+            padding: const EdgeInsets.all(6),
+            child: FittedBox(
+              child: Text('\$${widget.transaction.amount}'),
+            ),
           ),
         ),
-      ),
-      title: Text(
-        '${transaction.title}',
-        style: Theme.of(context).textTheme.headline6,
-      ),
-      subtitle: Text(
-        DateFormat.yMMMd().format(transaction.date).toString(),
-        style: Theme.of(context).textTheme.bodyText1,
-      ),
-      trailing: MediaQuery.of(context).size.width > 400
-          ? TextButton.icon(
-              onPressed: () => deleteTransaction(transaction.id.toString()),
-              icon: Icon(
-                Icons.delete,
-                color: Colors.red,
+        title: Text(
+          widget.transaction.title,
+          style: Theme.of(context).textTheme.bodyText1,
+        ),
+        subtitle: Text(
+          DateFormat.yMMMd().format(widget.transaction.date),
+        ),
+        trailing: MediaQuery.of(context).size.width > 460
+            ? FlatButton.icon(
+                icon: const Icon(Icons.delete),
+                label: const Text('Delete'),
+                textColor: Theme.of(context).errorColor,
+                onPressed: () => widget.deleteTx(widget.transaction.id),
+              )
+            : IconButton(
+                icon: const Icon(Icons.delete),
+                color: Theme.of(context).errorColor,
+                onPressed: () => widget.deleteTx(widget.transaction.id),
               ),
-              label: Text("Delete"),
-            )
-          : IconButton(
-              onPressed: () => deleteTransaction(transaction.id.toString()),
-              icon: Icon(
-                Icons.delete,
-                color: Colors.red,
-              )),
-    ),
-  );
+      ),
+    );
+  }
 }
