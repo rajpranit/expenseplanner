@@ -23,6 +23,7 @@ class _TransactionItemState extends State<TransactionItem> {
   Color bgcolor;
   @override
   void initState() {
+    print('This is the initstate');
     const availableColors = [
       Colors.blue,
       Colors.purple,

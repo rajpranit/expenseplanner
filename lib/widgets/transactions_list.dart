@@ -13,35 +13,37 @@ class TransactionList extends StatelessWidget {
   Widget build(BuildContext context) {
     print('build()transactionlist');
     return Container(
-        padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(color: Color(0xFFFFFFF)),
-        child: transactions.isEmpty
-            ? LayoutBuilder(
-                builder: (context, constraints) {
-                  return Column(
-                    children: [
-                      Text("There is nothing to show here",
-                          style: Theme.of(context).textTheme.headline5),
-                      SizedBox(height: 20),
-                      Container(
-                        height: constraints.maxHeight * 0.5,
-                        child: Image.asset(
-                          'assets/images/waiting.png',
-                          fit: BoxFit.fill,
-                        ),
-                      )
-                    ],
-                  );
-                },
-              )
-            : ListView.builder(
-                itemBuilder: (context, index) {
-                  return Container(
-                      child: TransactionItem(
-                          transaction: transactions[index],
-                          deleteTx: deleteTransaction));
-                },
-                itemCount: transactions.length,
-              ));
+      padding: EdgeInsets.all(10),
+      decoration: BoxDecoration(color: Color(0xFFFFFFF)),
+      child: transactions.isEmpty
+          ? LayoutBuilder(
+              builder: (context, constraints) {
+                return Column(
+                  children: [
+                    Text("There is nothing to show here",
+                        style: Theme.of(context).textTheme.headline5),
+                    SizedBox(height: 20),
+                    Container(
+                      height: constraints.maxHeight * 0.5,
+                      child: Image.asset(
+                        'assets/images/waiting.png',
+                        fit: BoxFit.fill,
+                      ),
+                    )
+                  ],
+                );
+              },
+            )
+          : ListView(
+              children: transactions
+                  .map(
+                    (e) => TransactionItem(
+                      key: ValueKey(e.id),
+                      transaction: e,
+                      deleteTx: deleteTransaction,
+                    ),
+                  )
+                  .toList()),
+    );
   }
 }
